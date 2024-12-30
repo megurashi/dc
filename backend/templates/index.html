@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catatan Saya</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 90%;
+            margin: 0 auto;
+            max-width: 1200px;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .notes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        .note {
+            background-color: #fff;
+            padding: 15px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .button {
+            padding: 8px 16px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .button:hover {
+            background-color: #0056b3;
+        }
+        .delete-btn {
+            background-color: #e74c3c;
+            border: none;
+            cursor: pointer;
+        }
+        .delete-btn:hover {
+            background-color: #c0392b;
+        }
+        .add-note {
+            margin-bottom: 20px;
+        }
+        textarea {
+            padding: 10px;
+            width: 97%;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            resize: vertical; /* Allow vertical resizing */
+        }
+        @media (min-width: 768px) {
+            .notes-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        @media (min-width: 1024px) {
+            .notes-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Our Notes</h1>
+        <form method="POST" action="/add">
+            <div class="add-note">
+                <textarea name="content" placeholder="Tambah catatan baru..." required></textarea>
+                <button type="submit" class="button">Tambah Catatan</button>
+            </div>
+        </form>
+        <div class="notes-grid">
+            {{range .}}
+            <div class="note">
+                <p>{{.Content}}</p>
+                <form method="POST" action="/delete/{{.ID}}" style="display:inline;">
+                    <button type="submit" class="button delete-btn">Hapus</button>
+                </form>
+            </div>
+            {{else}}
+            <p>Belum ada catatan.</p>
+            {{end}}
+        </div>
+    </div>
+</body>
+</html>
